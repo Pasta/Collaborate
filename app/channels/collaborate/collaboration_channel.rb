@@ -32,6 +32,11 @@ module Collaborate
       data[:operation] = operation.to_a
 
       ActionCable.server.broadcast "collaborate.documents.#{document.id}.operations", data
+
+      begin
+        perform_after_operation(data, document)
+      rescue
+      end
     end
 
     private
