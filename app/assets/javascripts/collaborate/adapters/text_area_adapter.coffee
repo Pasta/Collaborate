@@ -15,6 +15,16 @@ window.Collaborate.Adapters.TextAreaAdapter = class TextAreaAdapter
   # to our server.
   textChange: =>
     newContent = @$textarea.val()
+    console.log(newContent)
+
+    operation = @operationFromTextChange(@oldContent, newContent)
+
+    @oldContent = newContent
+
+    @collaborativeAttribute.localOperation(operation)
+
+  textChangeWith:(newContent) =>
+    console.log("def here")
 
     operation = @operationFromTextChange(@oldContent, newContent)
 
