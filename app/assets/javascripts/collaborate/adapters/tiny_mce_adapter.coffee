@@ -1,12 +1,9 @@
-window.Collaborate.Adapters.TextAreaAdapter = class TextAreaAdapter
-  constructor: (@collaborativeAttribute, textarea) ->
-    @$textarea = $(textarea)
+window.Collaborate.Adapters.TinyMceAdapter = class TinyMceAdapter
+  constructor: (@collaborativeAttribute, activeEditor) ->
+    @activeEditor = activeEditor
 
-    @oldContent = @$textarea.val()
-
-    for eventName in ['keyup', 'cut', 'paste']
-      @$textarea.on eventName, @textChange
-
+    @oldContent = @activeEditor.getContent({format : 'html'})
+    console.log(@oldContent)
     @collaborativeAttribute.on 'remoteOperation', @applyRemoteOperation
 
   # Called when the textarea has changed.
@@ -62,26 +59,14 @@ window.Collaborate.Adapters.TextAreaAdapter = class TextAreaAdapter
     op.retain(commonEnd)
 
     return op
-
+  # http://stackoverflow.com/questions/7649068/tinymce-plugin-get-reference-to-the-original-textarea
   applyRemoteOperation: (operation) =>
     content = operation.apply(@oldContent)
-
-    selectionStart = @$textarea[0].selectionStart
-    selectionEnd = @$textarea[0].selectionEnd
-
-    @$textarea.val(content)
-
-    @$textarea[0].setSelectionRange(selectionStart, selectionEnd)
-
-    @oldContent = content
-
-  applyRemoteOperationWithCallback: (operation, callback) =>
-    content = operation.apply(@oldContent)
-
-    # selectionStart = @$textarea[0].selectionStart
+    #
+    # selectionStart = @activeEditor.selectionStart
     # selectionEnd = @$textarea[0].selectionEnd
 
-    callback(content)
+    @activeEditor.setContent(content)
 
     # @$textarea[0].setSelectionRange(selectionStart, selectionEnd)
 
