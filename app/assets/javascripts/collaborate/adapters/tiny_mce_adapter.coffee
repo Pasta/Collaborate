@@ -3,7 +3,7 @@ window.Collaborate.Adapters.TinyMceAdapter = class TinyMceAdapter
     @activeEditor = activeEditor
 
     @oldContent = @activeEditor.getContent({format : 'html'})
-    console.log(@oldContent)
+
     @collaborativeAttribute.on 'remoteOperation', @applyRemoteOperation
 
   # Called when the textarea has changed.
