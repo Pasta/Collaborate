@@ -49,8 +49,7 @@ Collaborate.Cable = class Cable
     console.debug "Set client ID as #{@clientId}"
 
   receiveAttribute: (data) =>
-    return unless data.document_id == @documentId
-
+#    return unless data.document_id == @documentId
     attributeCable = @attributeCables[data.attribute]
 
     unless attributeCable
