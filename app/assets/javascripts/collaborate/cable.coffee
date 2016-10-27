@@ -3,6 +3,7 @@ Collaborate.Cable = class Cable
     @unackedOps = []
     @attributeCables = {}
     @documentId = @collaborate.documentId
+    @saved = false
 
     @subscription = cable.subscriptions.create { channel: channel, documentId: @documentId },
       connected: @connected
@@ -42,6 +43,18 @@ Collaborate.Cable = class Cable
     data.document_id = @documentId
 
     @subscription.perform 'operation', data
+    @saved = false
+
+  saveDocument: =>
+    if @saved == false
+      data = {}
+      data.client_id = @clientId
+      data.document_id = @documentId
+
+      @subscription.perform 'save_document', data
+      console.info 'Document Saved'
+
+      @saved = true
 
   subscribed: (data) ->
     @clientId = data.client_id

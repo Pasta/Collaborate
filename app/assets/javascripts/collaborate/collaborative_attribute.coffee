@@ -17,6 +17,10 @@ Collaborate.CollaborativeAttribute = class CollaborativeAttribute
 
     @state.localOperation(operation)
 
+  saveDocument: () =>
+    @collaborativeAttribute.cable.saveDocument()
+
+
   remoteOperation: (data) =>
     @state.transformRemoteOperation(data)
 

@@ -33,6 +33,13 @@ module Collaborate
 
       ActionCable.server.broadcast "collaborate.documents.#{document.id}.operations", data
 
+
+    end
+
+    def save_document(data)
+      data = ActiveSupport::HashWithIndifferentAccess.new(data)
+      document = document_type.find(data[:document_id])
+
       begin
         perform_after_operation(data, document)
       rescue
